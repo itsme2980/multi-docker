@@ -9,17 +9,17 @@ script:
   - docker run -e CI=true itsme2980/react-test npm run test
 
 after_success:
-  - docker build -t itsme2980/multi-client ./client
-  - docker build -t itsme2980/multi-nginx ./nginx
-  - docker build -t itsme2980/multi-server ./server
-  - docker build -t itsme2980/multi-worker ./worker
+  - docker build -t $DOCKER_ID/multi-client ./client
+  - docker build -t $DOCKER_ID/multi-nginx ./nginx
+  - docker build -t $DOCKER_ID/multi-server ./server
+  - docker build -t $DOCKER_ID/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push images into docker hub
-  - docker push itsme2980/multi-client
-  - docker push itsme2980/multi-nginx
-  - docker push itsme2980/multi-server
-  - docker push itsme2980/multi-worker
+  - docker push $DOCKER_ID/multi-client
+  - docker push $DOCKER_ID/multi-nginx
+  - docker push $DOCKER_ID/multi-server
+  - docker push $DOCKER_ID/multi-worker
 
 deploy:
   provider: elasticbeanstalk
