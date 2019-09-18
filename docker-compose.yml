@@ -6,15 +6,17 @@ services:
     image: 'redis:latest'
   nginx:
     restart: always
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./nginx
+    image: 'minhanhluu/multi-nginx'
+#    build:
+#      dockerfile: Dockerfile.dev
+#      context: ./nginx
     ports:
       - '3050:80'
   api:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./server
+    image: 'minhanhluu/multi-server'
+#    build:
+#      dockerfile: Dockerfile.dev
+#      context: ./server
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -27,19 +29,21 @@ services:
       - PGPASSWORD=postgres_password
       - PGPORT=5432
   client:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./client
+    image: 'minhanhluu/multi-client'
+#    build:
+#      dockerfile: Dockerfile.dev
+#      context: ./client
     volumes:
       - /app/node_modules
       - ./client:/app
   worker:
     environment:
       - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./worker
+      - REDIS_PORT=6379'
+    image: 'minhanhluu/multi-worker'
+#    build:
+#      dockerfile: Dockerfile.dev
+#      context: ./worker
     volumes:
       - /app/node_modules
       - ./worker:/app
